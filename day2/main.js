@@ -1,7 +1,7 @@
 const fs = require('fs');
 const readline = require('readline');
 
-const content = fs.readFileSync('./day/input', { encoding: 'utf8', flag: 'r' });
+const content = fs.readFileSync('./day2/input', { encoding: 'utf8', flag: 'r' });
 let args = content.split("\n");
 
 /**
@@ -12,7 +12,6 @@ let args = content.split("\n");
 
 //fonction principale
 args.forEach(line => {
-
 });
 
 
