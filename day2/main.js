@@ -9,16 +9,18 @@ let args = content.split("\n");
  * 
  */
 let sum = 0;
-
+let tab = [0,0,0];
 function checkColor(num, color) {
 	let Num = Number.parseInt(num);
-	if(color.includes('blue'))
-		return Num <= 14
-	if(color.includes('red'))
-		return Num <= 12
-	if(color.includes('green'))
-		return Num <= 13
-	console.log(Num + ' ' + color + ' wth')
+	if(color.includes('red')) {
+		if(Num > tab[0]) tab[0] = Num;
+	}
+	if(color.includes('green')) {
+		if(Num > tab[1]) tab[1] = Num;
+	}
+	if(color.includes('blue')) {
+		if(Num > tab[2]) tab[2] = Num;
+	}
 }
 
 
@@ -27,18 +29,16 @@ args.forEach(line => {
 	let Args = line.split(':');
 	let iterations = Args[1].split(';');
 	let error = false;
+	tab = [0,0,0];
 	iterations.forEach(iteration => {
 		colors = iteration.split(',');
 		colors.forEach(color => {
 			let parameters = color.split(' ');
-			if(!checkColor(parameters[1], parameters[2]))
-				error = true;
+			checkColor(parameters[1], parameters[2]);
 		});
 	});
-	if(!error) {
-		//console.log(Args[0].split(' ')[1])
-		sum += Number.parseInt(Args[0].split(' ')[1]);
-	}
+	console.log(tab[0] + ' ' + tab[1] + ' ' + tab[2])
+	sum += tab[0] * tab[1] * tab[2];
 });
 
 
