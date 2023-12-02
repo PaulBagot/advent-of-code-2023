@@ -1,10 +1,19 @@
 const fs = require('fs');
 const readline = require('readline');
 
-const content = fs.readFileSync('./input.txt', { encoding: 'utf8', flag: 'r' });
-let args = content.split('/\r?\n/');
+const content = fs.readFileSync('./day/input', { encoding: 'utf8', flag: 'r' });
+let args = content.split("\n");
+
+/**
+ * changer le path dans la fonction readFileSync
+ * 
+ */
+
 
 //fonction principale
 args.forEach(line => {
-	console.log(line)
+
 });
+
+
+console.log("resultat");
