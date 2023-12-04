@@ -9,7 +9,12 @@ let args = content.split("\n");
  * 
  */
 
+let index = 0;
 let total = 0;
+let tab = [];
+for(let i = 0; i < args.length; i++) {
+	tab[i] = 1;
+}
 //fonction principale
 args.forEach(line => {
 	let Args = line.split(':');
@@ -20,14 +25,16 @@ args.forEach(line => {
 	for(let  i = 0; i < win.length; i++) {
 		for(let j = 0; j < numbers.length; j++) {
 			if(win[i] == numbers[j] && (win[i] != '' || numbers[j] != '')) {
-				if(sum == 0) sum++
-				else sum *= 2;
-				console.log(sum)
+				sum++;
+				tab[index + sum] += tab[index];
 			}
 		}
 	}
-	total += sum;
+	index++;
 });
 
+tab.forEach(n => {
+	total += n;
+})
 
 console.log(total);
