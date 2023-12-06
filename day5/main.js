@@ -17,8 +17,10 @@ let cpt = 0;
 let Args = args[0].split(':')[1].trim().split(' '); 
 for(let i = 0; i < Args.length; i += 2) {
 	for(let j = 0; j < Args[i + 1]; j++) {
-		seeds[0][cpt] = parseInt(Args[i]) + j;
-		cpt++;
+		if(!seeds[0].includes(parseInt(Args[i]) + j)) {
+			seeds[0][cpt] = parseInt(Args[i]) + j;
+			cpt++;
+		}
 	}
 }
 
