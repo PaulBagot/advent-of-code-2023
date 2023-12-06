@@ -6,52 +6,55 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class DaySix {
 
-	private List<Race> races;
+	private Race race;
 	
 	public DaySix() {
-		races = new ArrayList<Race>();
+		race = new Race(0,0);
 	}
 	
 	
 	public class Race {
-		private int record;
-		private int time;
+		private long record;
+		private long time;
 		
-		public Race(int record, int time) {
+		public Race(long record, long time) {
 			this.record = record;
 			this.time = time;
 		}
 		
-		private ArrayList<Integer> getDistances() {
-			ArrayList<Integer> distances = new ArrayList<Integer>();
-			for(int i = 0; i <= time; i++) {
-				int timeLeft = time - i;
+		private ArrayList<Long> getDistances() {
+			ArrayList<Long> distances = new ArrayList<Long>();
+			for(long i = 0; i <= time; i++) {
+				long timeLeft = time - i;
 				distances.add(timeLeft * i);
 			}
 			return distances;
 		}
 		
-		public ArrayList<Integer> getDistancesBeatRecord() {
-			ArrayList<Integer> distanceBeat = new ArrayList<>();
-			for(Integer distance : getDistances()) {
+		public ArrayList<Long> getDistancesBeatRecord() {
+			ArrayList<Long> distanceBeat = new ArrayList<>();
+			for(Long distance : getDistances()) {
 				if(distance > record)
 					distanceBeat.add(distance);
 			}
 			return distanceBeat;
 		}
+
+		public void setRecord(long record) {
+			this.record = record;
+		}
+
+		public void setTime(long time) {
+			this.time = time;
+		}
 	}
 	
 	
-	public int getNumberRecords() {
-		int sum = 1;
-		for(Race r : races) {
-			sum *= r.getDistancesBeatRecord().size();
-		}
-		return sum;
+	public long getNumberRecords() {
+		return race.getDistancesBeatRecord().size();
 	}
 	
 	
@@ -59,10 +62,10 @@ public class DaySix {
 		try {
 			File file = new File(fileName);
 			BufferedReader reader = new BufferedReader(new FileReader(file));
-			String[] times = reader.readLine().split(":")[1].trim().split("\s+");
-			String[] records = reader.readLine().split(":")[1].trim().split("\s+");
-			for(int i = 0; i < times.length; i++)
-				races.add(new Race(Integer.parseInt(records[i]), Integer.parseInt(times[i])));
+			String[] time = reader.readLine().split(":")[1].trim().split("\s+");
+			String[] record = reader.readLine().split(":")[1].trim().split("\s+");
+			race.setRecord(Long.parseLong(String.join("", record)));
+			race.setTime(Long.parseLong(String.join("", time)));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
