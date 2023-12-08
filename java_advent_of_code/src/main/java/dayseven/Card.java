@@ -23,7 +23,7 @@ public class Card {
 		if(max == 2) {
 			if(howManyDifferent(max) == 3) return 3;
 			return 2;
-		}if(max == 3) {
+		}if(max == 3) {	 
 			if(howManyDifferent(max) == 2) return 4;
 			return 5;
 		}
