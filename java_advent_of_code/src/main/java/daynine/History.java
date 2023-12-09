@@ -34,9 +34,10 @@ public class History {
 		while(!endOfSequences()) {
 			sequences.add(newSequence(sequences.get(sequences.size() - 1)));
 		}
-		for(List<Integer> values : sequences) {
-			sum += values.get(values.size() - 1);
+		for(int i = sequences.size() - 1; i >= 0; i--) {
+			sum = sequences.get(i).get(0) - sum;
 		}
+		System.out.println(sum);
 		return sum;
 	}
 
