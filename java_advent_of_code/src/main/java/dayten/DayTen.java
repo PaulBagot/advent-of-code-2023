@@ -49,9 +49,28 @@ public class DayTen {
 		path.add(path.get(path.size() - 1).next(path, board));
 		while(!path.get(path.size() - 1).label.contains("S")) {
 			path.add(path.get(path.size() - 1).next(path, board));
-			System.out.println(path);
 		}
 	}
+
+	private String checkBoucle(int i, int j) {
+		for(Pipe pipe : path) {
+			if(i == pipe.y && j == pipe.x) 
+				return pipe.label;
+		}
+		return " ";
+	}
+	
+	public String getBoucle() {
+		String str = "";
+		for(int i = 0; i < board.size(); i++) {
+			for(int j = 0; j < board.get(i).length; j++) {
+				str += checkBoucle(i, j);
+			}
+			str += "\n";
+ 		}
+		return str;
+	}
+	
 
 
 	public int getLength() {
@@ -61,9 +80,8 @@ public class DayTen {
 	public static void main(String[] args) {
 		DayTen d = new DayTen();
 		d.readFile("./src/main/resources/input10");
-		d.display();
 		d.createPath();
-		System.out.println(d.getLength() + "");
+		System.out.println(d.getBoucle());
 	}
 	
 }

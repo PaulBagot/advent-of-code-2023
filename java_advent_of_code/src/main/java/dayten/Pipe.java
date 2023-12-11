@@ -18,8 +18,6 @@ public class Pipe {
 	public Pipe next(List<Pipe> path, List<String[]> board) {
 		if(path.size() == 1) {
 			Pipe start = path.get(path.size() - 1);
-			System.out.println(start.x + " " + start.y);
-			System.out.println(board.get(start.y + 1)[start.x].contains("|"));
 			if(board.get(start.y - 1)[start.x].contains("|") || board.get(start.y - 1)[start.x].contains("7") || board.get(start.y - 1)[start.x].contains("F"))
 				return new Pipe(start.x, start.y - 1, board.get(start.y - 1)[start.x]);
 			

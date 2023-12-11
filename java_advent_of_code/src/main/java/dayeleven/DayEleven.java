@@ -12,10 +12,12 @@ public class DayEleven {
 	
 	private List<String> lines;
 	private List<Galaxie> galaxies;
+	private long farther;
 	
 	public DayEleven() {
 		lines = new ArrayList<String>();
 		galaxies = new ArrayList<Galaxie>();
+		farther = 999999;
 	}
 	
 	public void readFile(String fileName) {
@@ -23,9 +25,7 @@ public class DayEleven {
 			BufferedReader reader = new BufferedReader(new FileReader(new File(fileName)));
 			String line;
 			while((line = reader.readLine()) != null) {
-				if(!isEmptyLine(line)) {
-					lines.add(line);
-				}
+				createGalaxies(line, lines.size());
 				lines.add(line);
 			}
 		} catch (FileNotFoundException e) {
@@ -35,15 +35,15 @@ public class DayEleven {
 		}
 	}
 	
-	private boolean isEmptyLine(String line) {
-		boolean hasGalaxies = false;
+	private void createGalaxies(String line, long y) {
 		for(int i = 0; i < line.length(); i++) {
-			if(line.charAt(i) == '#') {
-				galaxies.add(new Galaxie(i, lines.size()));
-				hasGalaxies = true;
-			}
+			if(line.charAt(i) == '#')
+				galaxies.add(new Galaxie(i, y));
 		}
-		return hasGalaxies;
+	}
+	
+	private boolean isEmptyLine(String line) {
+		return !line.contains("#");
 	}
 
 	private boolean isEmptyColumn(int column) {
@@ -54,38 +54,40 @@ public class DayEleven {
 		return !str.contains("#");
 	}
 	
-	private void modifyLines(int column) {
-		for(int i = 0; i < lines.size(); i++) {
-			String str = lines.get(i).substring(0, column);
-			str += "." + lines.get(i).substring(column);
-			lines.set(i, str);
-		}
+	private void modifyColumns(int column) {
 		for(int i = 0; i < galaxies.size(); i++) {
-			if(galaxies.get(i).x >= column)
-				galaxies.get(i).x++;
+			if(galaxies.get(i).x > column)
+				galaxies.get(i).fartherx += farther;
 		}
 	}
 	
-	public int solve() {
-		for(int i = 0; i < lines.get(0).length(); i++) {
-			if(isEmptyColumn(i)) {
-				modifyLines(i);
-				i++;
-			}
+	private void modifyLines(long line) {
+		for(int i = 0; i < galaxies.size(); i++) {
+			if(galaxies.get(i).y > line)
+				galaxies.get(i).farthery += farther;
 		}
-		int sum = 0;
-		int cpt = 0;
+	}
+	
+	public long solve() {
+		for(int i = 0; i < lines.get(0).length(); i++) {
+			if(isEmptyColumn(i))
+				modifyColumns(i);
+		}
+		for(int i = 0; i < lines.size(); i++) {
+			if(isEmptyLine(lines.get(i)))
+				modifyLines(i);
+		}
+		long sum = 0;
 		for(int i = 0; i < galaxies.size() - 1; i++) {
 			for(int j = i + 1; j < galaxies.size(); j++) {
-				sum += getPath(galaxies.get(i).x, galaxies.get(i).y, galaxies.get(j).x, galaxies.get(j).y);
-				cpt++;
+				sum += getPath(galaxies.get(i), galaxies.get(j));
 			}
 		}
 		return sum;
 	}
 
-	private int getPath(int srcx, int srcy, int destx, int desty) {
-		return Math.abs(srcx - destx) + Math.abs(srcy - desty);
+	private long getPath(Galaxie src, Galaxie dest) {
+		return Math.abs((src.x + src.fartherx) - (dest.x + dest.fartherx)) + Math.abs((src.y + src.farthery) - (dest.y + dest.farthery));
 	}
 
 	public void display() {
@@ -96,6 +98,6 @@ public class DayEleven {
 	public static void main(String[] args) {
 		DayEleven d = new DayEleven();
 		d.readFile("./src/main/resources/input11");
-		System.out.println(d.solve() + "");
+		System.out.println(d.solve());
 	}
 }
