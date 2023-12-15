@@ -70,12 +70,7 @@ public class DayFourteen {
 	public static void main(String[] args) {
 		DayFourteen d = new DayFourteen("./src/main/resources/input14");
 		d.readFile();
-		for(char[] rock : d.rocks)
-			System.out.println(rock);
-		System.out.println();
 		System.out.println(d.solve());
-		for(char[] rock : d.rocks)
-			System.out.println(rock);
 	}
 	
 	
